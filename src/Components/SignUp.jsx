@@ -4,8 +4,11 @@ import { FaArrowRightLong } from "react-icons/fa6";
 import { useFormik } from 'formik';
 import { signUpSchema } from '../assets/schema/signUpSchema';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 const SignUp = () => {
+
+  const navigate = useNavigate();
 
   const submit = (value, action) => {
     const apiGet = async () => {
@@ -29,7 +32,6 @@ const SignUp = () => {
     onSubmit: submit,
   });
 
-  console.log(values);
 
   return (
     <section className='sct2' >
@@ -62,7 +64,7 @@ const SignUp = () => {
                 id='email'
                 name='email'
                 className='input2'
-                type="email"
+                type="text"
                 placeholder='Email address...'
                 value={values.email}
                 onChange={handleChange}
@@ -116,6 +118,7 @@ const SignUp = () => {
 
           <div className="input-checkbox">
             <input
+            id='term'
               type="checkbox"
               name="term"
               value={values.term}
@@ -127,8 +130,8 @@ const SignUp = () => {
 
           <div className="container-login">
             <button type='submit' className='btn'>Sign Up</button>
-            <div className="sign-in">
-              <a href="/">Sign in </a>
+            <div className="sign-in" onClick={() => navigate ("/")}>
+              <a href="">Sign in </a>
               <FaArrowRightLong />
             </div>
           </div>

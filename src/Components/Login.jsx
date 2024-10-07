@@ -1,14 +1,44 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './Login.css';
 import { FaRegUser, FaFacebookF, FaTwitter, FaGoogle } from "react-icons/fa6";
 import { MdOutlineLock } from "react-icons/md";
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 
 const Login = () => {
+    const navigate = useNavigate();
+
+
+    const [username, setUsername] = useState('');
+    const [password, setPassword] = useState('');
+    const [error, setError] = useState('');
+
+
+    const checkApi = async () => {
+        const res = await axios.get("https://66ffcd724da5bd237552095c.mockapi.io/users");
+        const users = res.data;
+
+        const user = users.find(user => user.username === username && user.password === password);
+
+        if (user) {
+            navigate(`/welcome/${user.id}`);
+        } else {
+            setError('Invalid username or password');
+        }
+};
+
+
+const handleSubmit = (e) => {
+    e.preventDefault(); 
+    checkApi(); 
+};
+
+
     return (
         <section>
             <div className='container'>
-                <form action="">
+                <form action="" onSubmit={handleSubmit}>
                     <h2>Login</h2>
                     <div className="input-group">
                         <label htmlFor="">Username</label>
@@ -18,6 +48,8 @@ const Login = () => {
                                 <FaRegUser className='user-icon' />
                             </div>
                             <input
+                                value={username}
+                                onChange={(e) => setUsername(e.target.value)}
                                 type="text"
                                 placeholder='Type your username'
                             />
@@ -33,6 +65,8 @@ const Login = () => {
                                 <MdOutlineLock className='user-icon' />
                             </div>
                             <input
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
                                 type="text"
                                 placeholder='Type your password'
                             />
@@ -54,8 +88,8 @@ const Login = () => {
                         <a href="" className='gl'> <FaGoogle className='twitter' /></a>
                     </div>
 
-                    <div className="sign">
-                        <a href="signUp">SIGN UP</a>
+                    <div className="sign" onClick={() => navigate("/signUp")}>
+                        <a href="">SIGN UP</a>
                     </div>
 
                 </form>
@@ -68,8 +102,3 @@ const Login = () => {
 
 
 export default Login
-
-
-
-
-

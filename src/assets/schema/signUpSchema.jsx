@@ -10,7 +10,7 @@ export const signUpSchema = yup.object().shape({
     password: yup.string().required(" must be filled!"),
     repeatPassword: yup
     .string()
-    .required("must be filled!!!!!!!")
+    .required("must be filled!!")
     .oneOf (
         [yup.ref("password"),yup.password],
         "enter your password correctly !"
